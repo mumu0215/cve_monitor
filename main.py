@@ -42,28 +42,40 @@ def dingding(text, msg):
 
 def get_info(year):
     # 监控用的
-    try:
-        api = "https://api.github.com/search/repositories?q=CVE-{}&sort=updated&per_page=80".format(year)
+    count=0
+    while True:
+        try:
+            api = "https://api.github.com/search/repositories?q=CVE-{}&sort=updated&per_page=80".format(year)
         # 请求API
-        req = requests.get(api).json()
-        items = req["items"]
-
-        return items
-    except Exception as e:
-        print("网络请求发生错误", e)
-        return None
+            req = requests.get(api).json()
+            items = req["items"]
+            return items
+        except Exception as e:
+            if count>5:
+                title=r"CVE脚本请求错误超过5次" 
+                content='请速速检查脚本'
+                dingding(title,content)
+            print("CVE网络请求发生错误", e)
+            count+=1
+            time.sleep(5)
 def get_info_cnvd(year):
     # 监控用的
-    try:
-        api = "https://api.github.com/search/repositories?q=CNVD-{}&sort=updated&per_page=150".format(year)
+    count=0
+    while True:
+        try:
+            api = "https://api.github.com/search/repositories?q=CNVD-{}&sort=updated&per_page=150".format(year)
         # 请求API
-        req = requests.get(api).json()
-        items = req["items"]
-
-        return items
-    except Exception as e:
-        print("网络请求发生错误", e)
-        return None
+            req = requests.get(api).json()
+            items = req["items"]
+            return items
+        except Exception as e:
+            if count>5：
+                title=r"CNVD脚本请求错误超过5次"
+                content='请速速检查脚本'
+                dingding(title,content)
+            print("CNVD网络请求发生错误", e)
+            count+=1
+            time.sleep(5)
 
 def db_match(items):
     r_list = []
