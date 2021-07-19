@@ -69,7 +69,7 @@ def get_info_cnvd(year):
             items = req["items"]
             return items
         except Exception as e:
-            if count>5：
+            if count>5:
                 title=r"CNVD脚本请求错误超过5次"
                 content='请速速检查脚本'
                 dingding(title,content)
